@@ -3,6 +3,7 @@ import { useUserSync } from "../../hooks/useUserSync";
 import { Image, SafeAreaView } from 'react-native'
 import SignOutButton from "../../components/SignOutButton";
 import PostComposer from "@/components/PostComposer";
+import PostList from "@/components/PostList";
 
 
 
@@ -19,6 +20,7 @@ export default function HomeScreen() {
       <SignOutButton />
     </SafeAreaView>
     <PostComposer/>
+    <PostList/>
 </>
    
      

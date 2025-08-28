@@ -9,18 +9,25 @@ const PostComposer = () => {
     const { currentUser } = useCurrentUser();
   return (
     <SafeAreaView className=' flex '>
-        {/* create post */}
-        <View className="flex-row items-center mb-2">
-  { (
-    <Image
-      source={{ uri: currentUser.imageUrl }}
-      className="w-10 h-10 rounded-full mr-2"
-    />
-  )}
-  <Text className="font-semibold text-base">
-    {currentUser?.firstName} {currentUser?.lastName}
-  </Text>
-</View>
+         {/* create post */}
+  <View className="flex-row items-center mb-2">
+    {currentUser?.imageUrl && (
+      <Image
+        source={{ uri: currentUser.imageUrl }}
+        className="w-10 h-10 rounded-full mr-2"
+      />
+    )}
+
+    {/* ime + username */}
+   
+      <View className="flex-col items-center">
+        <Text className="font-semibold text-base mr-1">
+          {currentUser?.firstName} {currentUser?.lastName}
+        </Text>
+        <Text className="text-gray-400">@{currentUser?.username}</Text>
+      </View>
+    </View>
+ 
 
  {/* INPUT */}
 

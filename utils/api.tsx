@@ -34,7 +34,8 @@ export const userApi = {
   }
   export const postApi = {
     getPosts: (api: AxiosInstance) => api.get("/posts"),
-    createPost: (api: AxiosInstance,data: { content: string }) => api.post("/posts"),   
+   createPost: (api: AxiosInstance, data: { content: string; image?: string }) =>
+    api.post("/posts", data),  
     getUserPosts: (api: AxiosInstance, username: string) => api.get(`/posts/${username}`),
 
   }

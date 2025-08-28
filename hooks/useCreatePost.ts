@@ -1,21 +1,16 @@
-import { useApiClient } from "@/utils/api";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { postApi, useApiClient } from "@/utils/api";
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { Alert } from "react-native";
 
 export const useCreatePost = () => {
   const [content, setContent] = useState("");
   const api = useApiClient();
-  const queryClient = useQueryClient();
 
   const createPostMutation = useMutation({
-   mutationFn: async (postData: { content: string }) => {
-  return api.post("/posts", postData);
-},
+   mutationFn: (content: string) => postApi.createPost(api, { content }),
 
     onSuccess: () => {
-      setContent("");
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
       Alert.alert("Success", "Post created successfully!");
     },
     onError: () => {
@@ -28,21 +23,14 @@ const createPost = () => {
       Alert.alert("Empty Post", "Please write something!");
       return;
     }
-
-    const postData: { content: string} = {
-      content: content.trim(),
-    };
-
-    
-
-    createPostMutation.mutate(postData);
+    createPostMutation.mutate(content);
   };
 
   return {
     content,
     setContent,
-   
-    isCreating: createPostMutation.isPending,
-    createPost,
+    createPostMutation,
+
+    createPost
   };
 };

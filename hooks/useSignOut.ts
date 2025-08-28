@@ -1,4 +1,4 @@
-import {  useAuth, useClerk } from "@clerk/clerk-expo";
+import {  useAuth } from "@clerk/clerk-expo";
 import { Alert } from "react-native";
 
 export const useSignOut = () => {

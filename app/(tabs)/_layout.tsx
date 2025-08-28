@@ -1,7 +1,7 @@
 import { Redirect, Tabs } from 'expo-router'
 import React from 'react'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import Feater from '@expo/vector-icons/Feather'
+
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useAuth } from '@clerk/clerk-expo'
 
@@ -35,7 +35,23 @@ export default function TabsLayout() {
             tabBarIcon:({size,color})=> <Ionicons name="home" size={size} color={color} />
           }}
         />
-      
+      <Tabs.Screen
+        
+          name="message"
+          options={{
+            title: '',
+            tabBarIcon:({size,color})=> <Ionicons name="mail" size={size} color={color} />
+          }}
+        />
+        <Tabs.Screen
+        
+          name="profile"
+          options={{
+            title: '',
+            tabBarIcon:({size,color})=> <Ionicons name="person" size={size} color={color} />
+          }}
+        />
+       
 
     </Tabs>
   )

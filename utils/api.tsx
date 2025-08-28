@@ -11,6 +11,7 @@ export const createApiClient = (getToken:()=>Promise<string|null>):AxiosInstance
     });
     api.interceptors.request.use(async (config) => {
         const token = await getToken();
+        console.log("Token is here", token);
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
             console.log("Token added to request headers", token);
@@ -29,7 +30,12 @@ export const useApiClient = (): AxiosInstance => {
 
 export const userApi = {
   syncUser: (api: AxiosInstance) => api.post("/user/sync"),
-
+  getCurrentUser: (api: AxiosInstance) => api.get("/user/me"),
+  }
+  export const postApi = {
+    getPosts: (api: AxiosInstance) => api.get("/posts"),
+    createPost: (api: AxiosInstance,data: { content: string }) => api.post("/posts"),   
+    getUserPosts: (api: AxiosInstance, username: string) => api.get(`/posts/${username}`),
 
   }
  

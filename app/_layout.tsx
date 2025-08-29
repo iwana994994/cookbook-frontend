@@ -13,7 +13,7 @@ const queryClient = new QueryClient()
 
 
 export default function RootLayout() {
-  return (<ClerkProvider tokenCache={tokenCache}>
+  return (<ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY} tokenCache={tokenCache}>
 
     <QueryClientProvider client={queryClient}>
 

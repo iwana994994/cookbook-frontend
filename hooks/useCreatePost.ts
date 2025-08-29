@@ -16,7 +16,7 @@ export const useCreatePost = () => {
     onSuccess: () => {
       setContent("");
       queryClient.invalidateQueries({ queryKey: ["posts"] });
-      Alert.alert("Success", "Post created successfully!");
+      
     },
     onError: () => {
       Alert.alert("Error", "Failed to create post. Please try again.");

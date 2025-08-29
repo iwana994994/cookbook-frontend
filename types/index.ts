@@ -3,7 +3,8 @@ export interface User {
   username: string;
   firstName: string;
   lastName: string;
-  profilePicture?: string;
+  imageUrl?: string;
+  bannerUrl?: string;
 }
 
 
@@ -12,6 +13,7 @@ export interface Post {
   _id: string;
   content: string;
   user: User;
+  createdAt: string;
   
 }
 

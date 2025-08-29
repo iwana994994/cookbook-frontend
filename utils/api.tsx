@@ -37,6 +37,7 @@ export const userApi = {
    createPost: (api: AxiosInstance, data: { content: string; image?: string }) =>
     api.post("/posts", data),  
     getUserPosts: (api: AxiosInstance, username: string) => api.get(`/posts/${username}`),
+    deletePost: (api: AxiosInstance, postId: string) => api.delete(`/posts/${postId}`),
 
   }
  

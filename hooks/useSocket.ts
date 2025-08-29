@@ -1,7 +1,7 @@
 import { io } from "socket.io-client";
 import { create } from "zustand";
 
-const baseUrl = "https://cookbook-backend-alpha.vercel.app";
+const baseUrl = "https://cookbook-backend-mjpt.onrender.com";
 
 const socket = io(baseUrl, {
     autoConnect: false,
@@ -19,7 +19,7 @@ export const useSocketStore = create<SocketState>((set, get) => ({
 
   initSocket: (userId: string) => {
   if (!socket.connected) {
-    console.log("Connecting socket...");
+    console.log("Connecting socket...   😍😍😍");
     socket.connect();
     socket.on("connect", () => {
       console.log("Socket connected");

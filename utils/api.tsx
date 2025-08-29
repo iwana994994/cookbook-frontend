@@ -3,7 +3,7 @@ import axios, { AxiosInstance } from 'axios';
 
 
 
-const API_BASE_URL = 'https://cookbook-backend-alpha.vercel.app/api';
+const API_BASE_URL = 'https://cookbook-backend-mjpt.onrender.com/api';
 
 export const createApiClient = (getToken:()=>Promise<string|null>):AxiosInstance => {
     const api= axios.create({

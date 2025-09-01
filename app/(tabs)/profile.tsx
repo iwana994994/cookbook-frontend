@@ -1,33 +1,42 @@
 import { View, Text, SafeAreaView,Image, ScrollView, TouchableOpacity, Alert } from 'react-native'
-import React from 'react'
+
 import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { usePosts } from '@/hooks/usePosts';
 import { Post } from '@/types';
 import { Feather } from '@expo/vector-icons';
 import { useSocketStore } from '@/hooks/useSocket';
 import { useEffect } from 'react';
+import { useAuth } from '@clerk/clerk-expo';
 
 const Profile = () => {
   const { currentUser } = useCurrentUser();
   const{posts,deletePost}=usePosts()
+  const{getToken}=useAuth()
 
    const { isConnected, initSocket, disconnectSocket } = useSocketStore();
 
   // kad se korisnik pojavi, poveži socket
   useEffect(() => {
-  if (currentUser ?._id && currentUser ?.token) {
-    console.log("Connecting socket...");
-    console.log("User  ID:", currentUser ._id);
-    console.log("Token:", currentUser .token);
-    initSocket(currentUser ._id, currentUser .token);
-  } else {
-    console.log("Nema userId ili tokena, socket se ne povezuje");
-  }
-  return () => {
-    disconnectSocket();
-  };
-}, [currentUser ?._id, currentUser ?.token]);
-
+   async function connect() {
+      if (!currentUser ?._id) {
+        console.log("Nema userId, socket se ne povezuje");
+        return;
+      }
+      const token = await getToken({ template: "socket-auth_token" });
+      if (!token) {
+        console.log("Nema tokena, socket se ne povezuje");
+        return;
+      }
+      console.log("Connecting socket...");
+      console.log("   😉  User  ID:", currentUser ._id);
+      console.log("  👌  Token:", token);
+      initSocket(currentUser ._id, token);
+    }
+    connect();
+    return () => {
+      disconnectSocket();
+    };
+  }, [currentUser, getToken, initSocket, disconnectSocket]);
     const handleDelete = (postId: string) => {
   
       Alert.alert("Delete Post", "Are you sure you want to delete this post?", [

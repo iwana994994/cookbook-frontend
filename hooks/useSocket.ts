@@ -27,8 +27,10 @@ export const useSocketStore = create<SocketState>((set, get) => ({
 
 // init socket
   initSocket: (userId: string, token: string) => {
-    console.log("initSocket called with:", userId, token);
+    console.log("initSocket called     :", userId, token);
     socket.auth = { token };
+
+    
  
   if (!socket.connected) {
     console.log("Connecting socket...   😍😍😍");

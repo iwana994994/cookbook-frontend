@@ -4,8 +4,9 @@ import { create } from "zustand";
 const baseUrl = "https://cookbook-backend-mjpt.onrender.com";
 
 const socket = io(baseUrl, {
-    autoConnect: false,
-    transports: ["polling"], 
+  autoConnect: false,
+  transports: ["websocket", "polling"], 
+  withCredentials: true,
 });
 
 interface SocketState {

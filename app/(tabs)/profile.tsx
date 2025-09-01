@@ -23,6 +23,7 @@ const Profile = () => {
         return;
       }
       const token = await getToken({ template: "socket-auth_token" });
+        console.log("Dobijeni token    🤳  :", token);
       if (!token) {
         console.log("Nema tokena, socket se ne povezuje");
         return;

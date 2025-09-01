@@ -11,33 +11,35 @@ import { useAuth } from '@clerk/clerk-expo';
 const Profile = () => {
   const { currentUser } = useCurrentUser();
   const{posts,deletePost}=usePosts()
-  const{getToken}=useAuth()
+  const{getToken,userId}=useAuth()
 
    const { isConnected, initSocket, disconnectSocket } = useSocketStore();
 
   // kad se korisnik pojavi, poveži socket
   useEffect(() => {
-   async function connect() {
-      if (!currentUser ?._id) {
+       async function connectSocket() {
+      if (!userId) {
         console.log("Nema userId, socket se ne povezuje");
         return;
       }
-      const token = await getToken({ template: "socket-auth_token" });
-        console.log("Dobijeni token    🤳  :", token);
+
+      // Dobij token za backend verifikaciju
+      const token = await getToken(); // default JWT token
+
       if (!token) {
         console.log("Nema tokena, socket se ne povezuje");
         return;
       }
-      console.log("Connecting socket...");
-      console.log("   😉  User  ID:", currentUser ._id);
-      console.log("  👌  Token:", token);
-      initSocket(currentUser ._id, token);
+
+      console.log("Token za socket:", token);
+      initSocket(userId, token); // prosledi userId + token serveru
     }
-    connect();
+
+    connectSocket();
     return () => {
       disconnectSocket();
     };
-  }, [currentUser, getToken, initSocket, disconnectSocket]);
+  }, [userId, getToken, initSocket, disconnectSocket]);
     const handleDelete = (postId: string) => {
   
       Alert.alert("Delete Post", "Are you sure you want to delete this post?", [

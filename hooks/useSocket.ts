@@ -12,14 +12,14 @@ const socket = io(baseUrl, {
 
 interface SocketState {
   isConnected: boolean;
-  initSocket: (userId: string) => void;
+  initSocket: (userId: string, token: string) => void;
   disconnectSocket: () => void;
 }
 
 export const useSocketStore = create<SocketState>((set, get) => ({
   isConnected: false,
 
-  initSocket: (userId: string) => {
+  initSocket: (userId: string, token: string) => {
   if (!socket.connected) {
     console.log("Connecting socket...   😍😍😍");
     socket.connect();

@@ -14,17 +14,18 @@ const Profile = () => {
    const { isConnected, initSocket, disconnectSocket } = useSocketStore();
 
   // kad se korisnik pojavi, poveži socket
-useEffect(() => {
-  if (currentUser?._id && currentUser?.token) {
-    console.log("Connecting socket for user:", currentUser._id);
-    initSocket(currentUser._id);
-  }
+  useEffect(() => {
+    if (currentUser ?._id, currentUser ?.token) {
+     console.log("Connecting socket...");
+     console.log("  😀   User ID:", currentUser._id);
+      initSocket(currentUser.id, currentUser.token);
+     
+    }
 
-  return () => {
-    disconnectSocket();
-  };
-}, [currentUser?._id, currentUser?.token]);
-
+    return () => {
+      disconnectSocket();
+    };
+  }, [currentUser ?.id]);
 
     const handleDelete = (postId: string) => {
   

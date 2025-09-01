@@ -15,17 +15,18 @@ const Profile = () => {
 
   // kad se korisnik pojavi, poveži socket
   useEffect(() => {
-    if (currentUser ?._id, currentUser ?.token) {
-     console.log("Connecting socket...");
-     console.log("  😀   User ID:", currentUser._id);
-      initSocket(currentUser.id, currentUser.token);
-     
-    }
-
-    return () => {
-      disconnectSocket();
-    };
-  }, [currentUser ?.id]);
+  if (currentUser ?._id && currentUser ?.token) {
+    console.log("Connecting socket...");
+    console.log("User  ID:", currentUser ._id);
+    console.log("Token:", currentUser .token);
+    initSocket(currentUser ._id, currentUser .token);
+  } else {
+    console.log("Nema userId ili tokena, socket se ne povezuje");
+  }
+  return () => {
+    disconnectSocket();
+  };
+}, [currentUser ?._id, currentUser ?.token]);
 
     const handleDelete = (postId: string) => {
   

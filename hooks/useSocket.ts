@@ -7,6 +7,9 @@ const socket = io(baseUrl, {
   autoConnect: false,
   transports: ["websocket", "polling"], 
   withCredentials: true,
+  auth: {
+    token: "",
+  }
   
 });
 
@@ -19,7 +22,14 @@ interface SocketState {
 export const useSocketStore = create<SocketState>((set, get) => ({
   isConnected: false,
 
+
+
+
+// init socket
   initSocket: (userId: string, token: string) => {
+    console.log("initSocket called with:", userId, token);
+    socket.auth = { token };
+ 
   if (!socket.connected) {
     console.log("Connecting socket...   😍😍😍");
     socket.connect();

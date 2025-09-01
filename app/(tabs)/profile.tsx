@@ -4,28 +4,34 @@ import { useCurrentUser } from '@/hooks/useCurrentUser'
 import { usePosts } from '@/hooks/usePosts';
 import { Post } from '@/types';
 import { Feather } from '@expo/vector-icons';
-import { useSocketStore } from '@/hooks/useSocket';
+import { useAuth } from '@clerk/clerk-expo';
+import  {useSocket}  from '@/hooks/useSocket';
 import { useEffect } from 'react';
 
 const Profile = () => {
   const { currentUser } = useCurrentUser();
   const{posts,deletePost}=usePosts()
 
-   const { isConnected, initSocket, disconnectSocket } = useSocketStore();
+   const { isConnected} = useSocket();
 
   // kad se korisnik pojavi, poveži socket
+ const { getToken } = useAuth();
+  const { initSocket, disconnectSocket } = useSocket();
   useEffect(() => {
-    if (currentUser ?._id) {
-     console.log("Connecting socket...");
-     console.log("  😀   User ID:", currentUser._id);
-      initSocket(currentUser.id);
-     
+    async function connect() {
+      const token = await getToken();
+       if (!token) {
+      console.warn("No token found, cannot connect socket");
+      return;
     }
-
+      initSocket(currentUser ._id, token);
+    }
+    connect();
     return () => {
       disconnectSocket();
     };
-  }, [currentUser ?.id]);
+  }, [currentUser]);
+
 
     const handleDelete = (postId: string) => {
   

@@ -1,24 +1,32 @@
-import { io } from "socket.io-client";
+
+
+import { io,Socket } from "socket.io-client";
 import { create } from "zustand";
 
 const baseUrl = "https://cookbook-backend-mjpt.onrender.com";
 
-const socket = io(baseUrl, {
-  autoConnect: false,
-  transports: ["websocket", "polling"], 
-  withCredentials: true,
-});
+let socket: Socket | null = null;  // globalna promenljiva za socke
+ 
+
 
 interface SocketState {
   isConnected: boolean;
-  initSocket: (userId: string) => void;
+   initSocket: (userId: string, token: string) => void;
   disconnectSocket: () => void;
 }
 
-export const useSocketStore = create<SocketState>((set, get) => ({
+export const useSocket = create<SocketState>((set, get) => ({
   isConnected: false,
 
-  initSocket: (userId: string) => {
+  initSocket: (userId: string, token: string) => {
+    const socket = io(baseUrl, {
+      autoConnect: false,
+      transports: ["websocket", "polling"],
+      withCredentials: true,
+      auth: { token },
+    });   
+
+
   if (!socket.connected) {
     console.log("Connecting socket...   😍😍😍");
     socket.connect();
@@ -39,10 +47,10 @@ export const useSocketStore = create<SocketState>((set, get) => ({
 });
   }
 },
-  disconnectSocket: () => {
-    socket.disconnect();
-    // ne postavljamo listener ovde
+ disconnectSocket: () => {
+    if (socket) {
+      socket.disconnect();
+      socket = null;
+    }
   },
 }));
-
-export default socket;
